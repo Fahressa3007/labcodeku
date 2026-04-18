@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Belajar JavaScript dari nol. Variabel, tipe data, kondisi, fungsi, DOM, event, dan lebih banyak lagi.">
+<title>Belajar JavaScript — labcodeku</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-topic="javascript">
+
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>labcodeku</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="html.html">HTML</a></li>
+      <li><a href="css.html">CSS</a></li>
+      <li><a href="javascript.html" class="active">JavaScript</a></li>
+      <li><a href="php.html">PHP</a></li>
+      <li><a href="playground.html">Playground</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<div class="lesson-layout">
+  <aside class="sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle">Daftar materi <span>▼</span></button>
+    <div class="sidebar-title">Bab 03 — JavaScript</div>
+    <ol>
+      <li><a href="#l1" data-lesson="l1">Apa itu JavaScript?</a></li>
+      <li><a href="#l2" data-lesson="l2">Cara menulis JS</a></li>
+      <li><a href="#l3" data-lesson="l3">Variabel</a></li>
+      <li><a href="#l4" data-lesson="l4">Tipe data</a></li>
+      <li><a href="#l5" data-lesson="l5">Operator</a></li>
+      <li><a href="#l6" data-lesson="l6">Kondisi (if/else)</a></li>
+      <li><a href="#l7" data-lesson="l7">Perulangan (loop)</a></li>
+      <li><a href="#l8" data-lesson="l8">Fungsi</a></li>
+      <li><a href="#l9" data-lesson="l9">Array</a></li>
+      <li><a href="#l10" data-lesson="l10">Object</a></li>
+      <li><a href="#l11" data-lesson="l11">DOM Manipulation</a></li>
+      <li><a href="#l12" data-lesson="l12">Event</a></li>
+      <li><a href="#l13" data-lesson="l13">Form validation</a></li>
+      <li><a href="#l14" data-lesson="l14">LocalStorage</a></li>
+      <li><a href="#latihan" data-lesson="latihan">Latihan akhir</a></li>
+      <li><a href="#cheatsheet" data-lesson="cheat">Cheatsheet</a></li>
+    </ol>
+  </aside>
+
+  <main class="lesson-main">
+    <div class="page-header">
+      <span class="section-label">— Bab 03</span>
+      <h1>JavaScript — <em class="accent">otak</em> halaman web.</h1>
+      <p class="subtitle">
+        Halaman HTML cuma diam. Dengan JavaScript, halaman bisa bereaksi, menghitung, menyimpan data, memvalidasi form, menampilkan animasi dinamis. Kita akan mulai dari benar-benar nol.
+      </p>
+    </div>
+
+    <section class="lesson" id="l1">
+      <span class="lesson-number">Materi 01</span>
+      <h2>Apa itu JavaScript?</h2>
+      <p>
+        JavaScript (sering disingkat <strong>JS</strong>) adalah bahasa pemrograman yang berjalan di browser pengunjung. Dia yang membuat halaman jadi <em>hidup</em> — tombol bisa diklik dan memicu sesuatu, angka bisa bertambah otomatis, form bisa divalidasi sebelum dikirim, dan lainnya.
+      </p>
+
+      <h3>Perbedaan HTML, CSS, JavaScript</h3>
+      <table>
+        <thead><tr><th>Bahasa</th><th>Peran</th><th>Analogi rumah</th></tr></thead>
+        <tbody>
+          <tr><td>HTML</td><td>Struktur, isi</td><td>Pondasi &amp; tembok</td></tr>
+          <tr><td>CSS</td><td>Tampilan</td><td>Cat, dekorasi, furniture</td></tr>
+          <tr><td>JavaScript</td><td>Perilaku, interaksi</td><td>Listrik, saklar, pintu otomatis</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info">
+        <strong>JavaScript bukan Java</strong>
+        Meski namanya mirip, JavaScript <em>tidak ada hubungannya</em> dengan Java. Dulu nama aslinya "Mocha", lalu diganti ke "JavaScript" karena alasan marketing. Sampai sekarang kadang masih bikin bingung pemula.
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l1">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l2">
+      <span class="lesson-number">Materi 02</span>
+      <h2>Cara menulis JavaScript</h2>
+      <p>Ada dua cara menyisipkan JavaScript ke HTML:</p>
+
+      <h3>1. Di dalam tag &lt;script&gt;</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">inline-script.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;h1&gt;Halo!&lt;/h1&gt;
+
+  &lt;script&gt;
+    console.log("Script jalan!");
+    alert("Halo dari JavaScript!");
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+
+      <h3>2. File .js terpisah (direkomendasikan)</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">index.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-html">&lt;script src="script.js"&gt;&lt;/script&gt;</code></pre>
+      </div>
+
+      <h3>Melihat output</h3>
+      <ul>
+        <li><code>console.log(...)</code> — tampil di Console browser (F12 → tab Console).</li>
+        <li><code>alert(...)</code> — tampil sebagai popup.</li>
+        <li><code>document.body.textContent = "..."</code> — tampil di halaman.</li>
+      </ul>
+
+      <div class="tip">
+        <strong>Console browser</strong>
+        Di Chrome/Firefox/Edge: tekan <strong>F12</strong> (atau klik kanan → Inspect) lalu pilih tab <strong>Console</strong>. Di sinilah pesan <code>console.log</code> dan error JavaScript akan muncul. Ini tempat penting untuk debugging.
+      </div>
+
+      <div class="warn">
+        <strong>Taruh &lt;script&gt; di mana?</strong>
+        Sebaiknya di <em>akhir body</em> (sebelum <code>&lt;/body&gt;</code>). Kalau di head, script akan jalan sebelum HTML selesai dimuat, dan kemungkinan gagal menemukan elemen. Atau pakai atribut <code>defer</code>: <code>&lt;script src="..." defer&gt;&lt;/script&gt;</code>.
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l2">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l3">
+      <span class="lesson-number">Materi 03</span>
+      <h2>Variabel — wadah untuk data</h2>
+      <p>Variabel adalah "kotak" untuk menyimpan data. Di JavaScript modern, ada 3 kata kunci:</p>
+      <ul>
+        <li><code>let</code> — nilai bisa berubah.</li>
+        <li><code>const</code> — nilai tetap (<em>constant</em>), tidak bisa diganti.</li>
+        <li><code>var</code> — cara lama, sebaiknya hindari.</li>
+      </ul>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">variabel.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">let umur = 20;
+const nama = "Budi";
+const PI = 3.14;
+
+umur = 21;   // ✓ boleh, let bisa diubah
+// nama = "Ani"; // ✗ error, const tidak bisa
+
+console.log(nama, umur); // Budi 21</code></pre>
+      </div>
+
+      <h3>Aturan penamaan variabel</h3>
+      <ul>
+        <li>Hanya huruf, angka, <code>_</code>, dan <code>$</code>.</li>
+        <li>Tidak boleh dimulai dengan angka.</li>
+        <li>Case-sensitive: <code>nama</code> dan <code>Nama</code> berbeda.</li>
+        <li>Pakai <strong>camelCase</strong>: <code>namaLengkap</code>, bukan <code>nama_lengkap</code> atau <code>NamaLengkap</code>.</li>
+        <li>Nama harus deskriptif: <code>hargaTotal</code> lebih baik daripada <code>x</code> atau <code>h</code>.</li>
+      </ul>
+
+      <div class="tip">
+        <strong>Kebiasaan baik</strong>
+        Default pakai <code>const</code>. Baru ganti ke <code>let</code> kalau kamu tahu nilainya akan berubah. Ini membuat code lebih aman dan mudah dibaca.
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l3">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l4">
+      <span class="lesson-number">Materi 04</span>
+      <h2>Tipe data</h2>
+      <p>JavaScript punya beberapa jenis data bawaan:</p>
+
+      <table>
+        <thead><tr><th>Tipe</th><th>Contoh</th><th>Catatan</th></tr></thead>
+        <tbody>
+          <tr><td><code>String</code></td><td><code>"Halo"</code> atau <code>'Halo'</code></td><td>Teks, selalu diapit tanda kutip</td></tr>
+          <tr><td><code>Number</code></td><td><code>42</code>, <code>3.14</code>, <code>-7</code></td><td>Angka (bulat atau desimal)</td></tr>
+          <tr><td><code>Boolean</code></td><td><code>true</code>, <code>false</code></td><td>Dua nilai saja: benar atau salah</td></tr>
+          <tr><td><code>Array</code></td><td><code>[1, 2, 3]</code></td><td>Daftar/list</td></tr>
+          <tr><td><code>Object</code></td><td><code>{nama: "Ani"}</code></td><td>Pasangan kunci–nilai</td></tr>
+          <tr><td><code>null</code></td><td><code>null</code></td><td>Sengaja kosong</td></tr>
+          <tr><td><code>undefined</code></td><td><code>undefined</code></td><td>Belum diberi nilai</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">tipe-data.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const teks = "Halo dunia";
+const angka = 42;
+const desimal = 3.14;
+const sudahLogin = true;
+const hobi = ["baca", "ngoding", "musik"];
+const user = {
+  nama: "Ani",
+  umur: 22,
+  aktif: true
+};
+
+// Akses array pakai index (mulai dari 0)
+console.log(hobi[0]);       // "baca"
+console.log(hobi[2]);       // "musik"
+console.log(hobi.length);   // 3
+
+// Akses object pakai kunci
+console.log(user.nama);     // "Ani"
+console.log(user["umur"]);  // 22</code></pre>
+      </div>
+
+      <h3>Template literal — gabung string dengan mudah</h3>
+      <p>Pakai backtick (<code>`</code>) untuk gabungkan teks dan variabel tanpa <code>+</code>.</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">template.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const nama = "Budi";
+const umur = 20;
+
+// Cara lama (masih jalan)
+const sapa1 = "Halo " + nama + ", umur " + umur;
+
+// Template literal (lebih enak dibaca)
+const sapa2 = `Halo ${nama}, umur ${umur}`;
+
+console.log(sapa2); // Halo Budi, umur 20</code></pre>
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l4">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l5">
+      <span class="lesson-number">Materi 05</span>
+      <h2>Operator</h2>
+      <p>Operator adalah simbol untuk melakukan operasi pada nilai.</p>
+
+      <h3>Aritmatika</h3>
+      <table>
+        <thead><tr><th>Operator</th><th>Fungsi</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td><code>+</code></td><td>Tambah / gabung string</td><td><code>5 + 3</code> → 8</td></tr>
+          <tr><td><code>-</code></td><td>Kurang</td><td><code>10 - 4</code> → 6</td></tr>
+          <tr><td><code>*</code></td><td>Kali</td><td><code>6 * 7</code> → 42</td></tr>
+          <tr><td><code>/</code></td><td>Bagi</td><td><code>15 / 3</code> → 5</td></tr>
+          <tr><td><code>%</code></td><td>Sisa bagi (modulo)</td><td><code>10 % 3</code> → 1</td></tr>
+          <tr><td><code>**</code></td><td>Pangkat</td><td><code>2 ** 3</code> → 8</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Perbandingan</h3>
+      <table>
+        <thead><tr><th>Operator</th><th>Fungsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>===</code></td><td>Sama persis (nilai &amp; tipe) — PAKAI INI</td></tr>
+          <tr><td><code>!==</code></td><td>Tidak sama persis</td></tr>
+          <tr><td><code>==</code></td><td>Sama nilai (tipe bisa beda) — hindari</td></tr>
+          <tr><td><code>&gt;</code>, <code>&lt;</code></td><td>Lebih besar / kecil</td></tr>
+          <tr><td><code>&gt;=</code>, <code>&lt;=</code></td><td>Lebih besar / kecil atau sama</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Logika</h3>
+      <table>
+        <thead><tr><th>Operator</th><th>Fungsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>&amp;&amp;</code></td><td>DAN (dua-duanya harus true)</td></tr>
+          <tr><td><code>||</code></td><td>ATAU (minimal satu true)</td></tr>
+          <tr><td><code>!</code></td><td>TIDAK (negasi)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">operator.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const umur = 18;
+const punyaKTP = true;
+
+console.log(umur &gt;= 17);              // true
+console.log(umur &gt;= 17 &amp;&amp; punyaKTP);   // true
+console.log(umur &lt; 17 || !punyaKTP);  // false
+
+// Hati-hati: == vs ===
+console.log(5 == "5");   // true (dikonversi dulu)
+console.log(5 === "5");  // false (tipe beda)
+// SELALU pakai === untuk perbandingan</code></pre>
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l5">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l6">
+      <span class="lesson-number">Materi 06</span>
+      <h2>Kondisi (if / else)</h2>
+      <p>Kondisi membuat program mengambil keputusan: "kalau begini lakukan A, kalau tidak lakukan B".</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">kondisi.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const nilai = 75;
+
+if (nilai &gt;= 90) {
+  console.log("A — Sangat Baik");
+} else if (nilai &gt;= 75) {
+  console.log("B — Baik");
+} else if (nilai &gt;= 60) {
+  console.log("C — Cukup");
+} else {
+  console.log("D — Perlu belajar lagi");
+}
+// Output: B — Baik</code></pre>
+      </div>
+
+      <h3>Operator ternary — if/else satu baris</h3>
+      <p>Untuk kondisi sederhana, bisa ditulis dalam satu baris:</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">ternary.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const umur = 18;
+
+// Cara panjang
+let status;
+if (umur &gt;= 17) {
+  status = "Dewasa";
+} else {
+  status = "Anak-anak";
+}
+
+// Cara pendek (ternary)
+const status2 = umur &gt;= 17 ? "Dewasa" : "Anak-anak";
+
+console.log(status2); // Dewasa</code></pre>
+      </div>
+
+      <h3>Switch — banyak pilihan</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">switch.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const hari = "Senin";
+
+switch (hari) {
+  case "Senin":
+    console.log("Awal minggu");
+    break;
+  case "Jumat":
+    console.log("Hampir weekend");
+    break;
+  case "Sabtu":
+  case "Minggu":
+    console.log("Weekend!");
+    break;
+  default:
+    console.log("Hari biasa");
+}</code></pre>
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l6">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l7">
+      <span class="lesson-number">Materi 07</span>
+      <h2>Perulangan (loop)</h2>
+      <p>Loop dipakai untuk menjalankan code berulang kali tanpa perlu menulis ulang.</p>
+
+      <h3>1. for — kalau tahu jumlah perulangannya</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">for.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">// Cetak 1 sampai 5
+for (let i = 1; i &lt;= 5; i++) {
+  console.log("Angka: " + i);
+}
+
+// Penjelasan bagian-bagiannya:
+// let i = 1   → nilai awal
+// i &lt;= 5      → syarat lanjut loop
+// i++         → apa yang dilakukan setiap putaran</code></pre>
+      </div>
+
+      <h3>2. while — selama syarat true</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">while.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">let jumlah = 0;
+
+while (jumlah &lt; 10) {
+  jumlah += 2;
+  console.log(jumlah);
+}
+// 2, 4, 6, 8, 10</code></pre>
+      </div>
+
+      <h3>3. for...of — loop isi array</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">for-of.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const buah = ["apel", "mangga", "jeruk"];
+
+for (const item of buah) {
+  console.log(item);
+}
+// apel, mangga, jeruk</code></pre>
+      </div>
+
+      <h3>4. forEach — cara lain loop array</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">foreach.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const buah = ["apel", "mangga", "jeruk"];
+
+buah.forEach((item, index) =&gt; {
+  console.log(`${index + 1}. ${item}`);
+});
+// 1. apel
+// 2. mangga
+// 3. jeruk</code></pre>
+      </div>
+
+      <div class="warn">
+        <strong>Awas infinite loop!</strong>
+        Kalau syarat loop tidak pernah false, browser akan hang. Di <code>while</code> pastikan ada sesuatu yang mengubah kondisi jadi false. Di <code>for</code>, pastikan <code>i++</code> atau counter-nya ada.
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l7">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l8">
+      <span class="lesson-number">Materi 08</span>
+      <h2>Fungsi</h2>
+      <p>Fungsi adalah "paket code" yang bisa dipanggil berkali-kali. Seperti resep: tulis sekali, pakai berkali-kali.</p>
+
+      <h3>Cara 1: function declaration</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">function.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">function tambah(a, b) {
+  return a + b;
+}
+
+function sapa(nama) {
+  return `Halo, ${nama}!`;
+}
+
+// Cara memanggil
+const hasil = tambah(3, 5);
+console.log(hasil);          // 8
+console.log(sapa("Budi"));   // Halo, Budi!</code></pre>
+      </div>
+
+      <h3>Cara 2: arrow function (modern)</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">arrow.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">// Bentuk panjang
+const tambah = (a, b) =&gt; {
+  return a + b;
+};
+
+// Bentuk pendek (kalau cuma 1 baris return)
+const kali = (a, b) =&gt; a * b;
+
+// Satu parameter, tanpa kurung
+const kuadrat = n =&gt; n * n;
+
+console.log(tambah(2, 3));   // 5
+console.log(kali(4, 5));     // 20
+console.log(kuadrat(7));     // 49</code></pre>
+      </div>
+
+      <h3>Parameter default</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">default-param.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const sapa = (nama = "Teman") =&gt; {
+  return `Halo, ${nama}!`;
+};
+
+console.log(sapa());         // Halo, Teman!
+console.log(sapa("Ani"));    // Halo, Ani!</code></pre>
+      </div>
+
+      <div class="info">
+        <strong>return vs aksi</strong>
+        Fungsi bisa <em>mengembalikan nilai</em> (pakai <code>return</code>) atau <em>melakukan aksi</em> (misalnya mengubah halaman, mencetak ke console). Fungsi tanpa return otomatis return <code>undefined</code>.
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l8">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l9">
+      <span class="lesson-number">Materi 09</span>
+      <h2>Array — daftar data</h2>
+      <p>Array adalah daftar berurutan. Item diakses pakai <strong>index</strong> yang dimulai dari <strong>0</strong>.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">array.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const buah = ["apel", "mangga", "jeruk", "pisang"];
+
+console.log(buah[0]);         // "apel"
+console.log(buah[3]);         // "pisang"
+console.log(buah.length);     // 4
+
+// Menambah data
+buah.push("nanas");           // tambah di akhir
+buah.unshift("durian");       // tambah di awal
+
+// Menghapus data
+buah.pop();                   // hapus terakhir
+buah.shift();                 // hapus pertama
+
+// Cek apakah ada
+console.log(buah.includes("mangga")); // true
+
+// Gabung jadi string
+console.log(buah.join(", "));  // "apel, mangga, jeruk, pisang"</code></pre>
+      </div>
+
+      <h3>Method array yang sering dipakai</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">array-methods.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const angka = [1, 2, 3, 4, 5];
+
+// map — ubah setiap item jadi hal lain
+const kuadrat = angka.map(n =&gt; n * n);
+console.log(kuadrat); // [1, 4, 9, 16, 25]
+
+// filter — ambil yang memenuhi syarat
+const genap = angka.filter(n =&gt; n % 2 === 0);
+console.log(genap); // [2, 4]
+
+// reduce — gabungkan jadi satu nilai
+const total = angka.reduce((a, b) =&gt; a + b, 0);
+console.log(total); // 15
+
+// find — cari satu yang cocok
+const pertamaLebihDari3 = angka.find(n =&gt; n &gt; 3);
+console.log(pertamaLebihDari3); // 4</code></pre>
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l9">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l10">
+      <span class="lesson-number">Materi 10</span>
+      <h2>Object — data dengan kunci</h2>
+      <p>Object menyimpan data dalam bentuk <strong>pasangan kunci–nilai</strong>. Cocok untuk mewakili "sesuatu" yang punya banyak properti.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">object.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const user = {
+  nama: "Ani",
+  umur: 22,
+  email: "ani@contoh.com",
+  hobi: ["baca", "nonton"],
+  alamat: {
+    kota: "Surabaya",
+    provinsi: "Jawa Timur"
+  }
+};
+
+// Akses properti
+console.log(user.nama);           // "Ani"
+console.log(user["email"]);       // "ani@contoh.com"
+console.log(user.alamat.kota);    // "Surabaya"
+
+// Ubah / tambah properti
+user.umur = 23;
+user.telepon = "081234567890";
+
+// Hapus properti
+delete user.email;
+
+// Cek properti
+console.log("nama" in user);      // true
+console.log(Object.keys(user));   // ["nama", "umur", "hobi", ...]</code></pre>
+      </div>
+
+      <h3>Method di dalam object</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">method-object.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const kalkulator = {
+  angka: 0,
+  tambah(n) {
+    this.angka += n;
+    return this;  // supaya bisa chain
+  },
+  kali(n) {
+    this.angka *= n;
+    return this;
+  },
+  tampil() {
+    console.log("Hasil:", this.angka);
+  }
+};
+
+kalkulator.tambah(5).kali(3).tampil();
+// Hasil: 15</code></pre>
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l10">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l11">
+      <span class="lesson-number">Materi 11</span>
+      <h2>DOM Manipulation — ubah halaman dengan JS</h2>
+      <p>
+        DOM (<em>Document Object Model</em>) adalah representasi halaman HTML dalam bentuk objek JavaScript. Lewat DOM, JavaScript bisa <strong>membaca</strong> atau <strong>mengubah</strong> isi halaman.
+      </p>
+
+      <h3>Memilih elemen</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">select.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">// Pilih satu elemen
+const judul = document.querySelector("h1");
+const tombol = document.querySelector("#kirim");      // id
+const kartu = document.querySelector(".kartu");       // class
+
+// Pilih banyak elemen
+const semuaKartu = document.querySelectorAll(".kartu");
+const semuaP = document.querySelectorAll("p");</code></pre>
+      </div>
+
+      <h3>Membaca &amp; mengubah isi</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">ubah.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const el = document.querySelector("#pesan");
+
+// Baca
+console.log(el.textContent);  // teks saja
+console.log(el.innerHTML);    // HTML-nya
+
+// Tulis
+el.textContent = "Teks baru";
+el.innerHTML  = "&lt;strong&gt;Tebal&lt;/strong&gt;";
+
+// Ubah gaya
+el.style.color = "red";
+el.style.fontSize = "24px";
+el.style.backgroundColor = "yellow";
+
+// Tambah/hapus class
+el.classList.add("aktif");
+el.classList.remove("nonaktif");
+el.classList.toggle("visible"); // ada→hilang, hilang→ada
+
+// Atribut
+const img = document.querySelector("img");
+img.src = "foto-baru.jpg";
+img.alt = "Foto baru";</code></pre>
+      </div>
+
+      <h3>Membuat elemen baru</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">buat-elemen.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">// Buat elemen baru
+const p = document.createElement("p");
+p.textContent = "Paragraf baru dari JS";
+p.classList.add("highlight");
+
+// Masukkan ke halaman
+document.body.appendChild(p);
+
+// Atau ke elemen tertentu
+const container = document.querySelector(".container");
+container.appendChild(p);
+
+// Hapus elemen
+const lama = document.querySelector(".lama");
+lama.remove();</code></pre>
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l11">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l12">
+      <span class="lesson-number">Materi 12</span>
+      <h2>Event — merespons tindakan pengguna</h2>
+      <p>Event adalah "sesuatu yang terjadi" — user klik, ketik, scroll, submit form, hover. JavaScript bisa "mendengarkan" event dan menjalankan code saat event terjadi.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">event.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-html">&lt;button id="tombol"&gt;Klik saya&lt;/button&gt;
+&lt;p id="pesan"&gt;Belum diklik&lt;/p&gt;
+
+&lt;script&gt;
+  const btn = document.querySelector("#tombol");
+  const pesan = document.querySelector("#pesan");
+
+  btn.addEventListener("click", () =&gt; {
+    pesan.textContent = "Kamu klik tombolnya!";
+    pesan.style.color = "tomato";
+  });
+&lt;/script&gt;</code></pre>
+      </div>
+
+      <div class="demo-wrapper">
+        <div class="demo-header"><span>Coba langsung</span></div>
+        <div class="demo-body interactive">
+          <button type="button" id="demoKlikBtn">Klik saya</button>
+          <p id="demoKlikPesan" style="margin-top:0.75rem;">Belum diklik</p>
+        </div>
+      </div>
+
+      <h3>Event yang sering dipakai</h3>
+      <table>
+        <thead><tr><th>Event</th><th>Kapan terjadi</th></tr></thead>
+        <tbody>
+          <tr><td><code>click</code></td><td>Saat elemen diklik</td></tr>
+          <tr><td><code>input</code></td><td>Saat isi input berubah (setiap ketik)</td></tr>
+          <tr><td><code>change</code></td><td>Saat nilai berubah &amp; fokus pindah</td></tr>
+          <tr><td><code>submit</code></td><td>Saat form dikirim</td></tr>
+          <tr><td><code>mouseover</code>, <code>mouseout</code></td><td>Masuk/keluar area elemen</td></tr>
+          <tr><td><code>keydown</code>, <code>keyup</code></td><td>Saat tombol keyboard ditekan</td></tr>
+          <tr><td><code>scroll</code></td><td>Saat halaman/elemen di-scroll</td></tr>
+          <tr><td><code>load</code></td><td>Saat halaman selesai dimuat</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Contoh: live input</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">live-input.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">const input = document.querySelector("#nama");
+const output = document.querySelector("#output");
+
+input.addEventListener("input", (e) =&gt; {
+  const val = e.target.value;
+  output.textContent = val ? `Halo, ${val}!` : "Halo, ...";
+});</code></pre>
+      </div>
+
+      <div class="demo-wrapper">
+        <div class="demo-header"><span>Coba langsung</span></div>
+        <div class="demo-body interactive">
+          <input type="text" id="demoLiveNama" placeholder="Ketik nama kamu" style="width:100%; max-width:300px;">
+          <h2 id="demoLiveOutput" style="margin-top:0.75rem;">Halo, ...</h2>
+        </div>
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l12">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l13">
+      <span class="lesson-number">Materi 13</span>
+      <h2>Form validation</h2>
+      <p>Validasi form adalah salah satu tugas klasik JavaScript. Kita cek input user sebelum dikirim.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">validasi.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-html">&lt;form id="myForm"&gt;
+  &lt;label&gt;Nama:&lt;/label&gt;
+  &lt;input type="text" id="nama"&gt;
+  &lt;label&gt;Email:&lt;/label&gt;
+  &lt;input type="email" id="email"&gt;
+  &lt;button type="submit"&gt;Kirim&lt;/button&gt;
+  &lt;p id="pesan"&gt;&lt;/p&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+  const form = document.querySelector("#myForm");
+  const pesan = document.querySelector("#pesan");
+
+  form.addEventListener("submit", (e) =&gt; {
+    e.preventDefault(); // cegah form dikirim default
+
+    const nama = document.querySelector("#nama").value.trim();
+    const email = document.querySelector("#email").value.trim();
+
+    if (nama === "") {
+      pesan.textContent = "Nama wajib diisi!";
+      pesan.style.color = "red";
+      return;
+    }
+
+    if (nama.length &lt; 3) {
+      pesan.textContent = "Nama minimal 3 huruf!";
+      pesan.style.color = "red";
+      return;
+    }
+
+    if (!email.includes("@")) {
+      pesan.textContent = "Email tidak valid!";
+      pesan.style.color = "red";
+      return;
+    }
+
+    pesan.textContent = `Terima kasih, ${nama}!`;
+    pesan.style.color = "green";
+    form.reset();
+  });
+&lt;/script&gt;</code></pre>
+      </div>
+
+      <div class="warn">
+        <strong>Jangan cuma andalkan validasi di JavaScript</strong>
+        Validasi JS mudah di-bypass oleh orang yang tahu cara. <strong>Selalu validasi ulang di server</strong> (pakai PHP). Validasi JS untuk pengalaman yang lebih baik, validasi server untuk keamanan.
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l13">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l14">
+      <span class="lesson-number">Materi 14</span>
+      <h2>LocalStorage — menyimpan data di browser</h2>
+      <p>
+        LocalStorage memungkinkan kamu menyimpan data di browser pengunjung. Data ini tetap ada walaupun browser ditutup. Cocok untuk tema, pengaturan, atau data kecil lainnya.
+      </p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">localstorage.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-javascript">// Simpan data
+localStorage.setItem("nama", "Budi");
+localStorage.setItem("tema", "gelap");
+
+// Ambil data
+const nama = localStorage.getItem("nama");
+console.log(nama); // "Budi"
+
+// Ambil data yang tidak ada
+const xyz = localStorage.getItem("xyz"); // null
+
+// Hapus satu item
+localStorage.removeItem("tema");
+
+// Hapus semua
+localStorage.clear();
+
+// Simpan object/array (harus dikonversi ke JSON)
+const user = { nama: "Ani", umur: 22 };
+localStorage.setItem("user", JSON.stringify(user));
+
+// Ambil object
+const data = JSON.parse(localStorage.getItem("user"));
+console.log(data.nama); // "Ani"</code></pre>
+      </div>
+
+      <div class="info">
+        <strong>Fakta menarik</strong>
+        Progress yang kamu centang di labcodeku ini disimpan pakai localStorage. Itu sebabnya meski kamu tutup tab, progresmu tetap ada saat kamu buka lagi. Coba buka Developer Tools → Application → Local Storage untuk melihat datanya.
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="l14">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <div class="quiz">
+      <div class="quiz-label">Kuis Cepat</div>
+      <h3>Cara paling tepat mendeklarasikan variabel yang nilainya tidak akan berubah adalah...</h3>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'var adalah cara lama, sebaiknya hindari.')">var</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'let dipakai kalau nilainya BISA berubah.')">let</button>
+        <button class="quiz-option" data-correct="true" onclick="checkQuiz(this, true, 'Benar! const untuk nilai yang tetap.')">const</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fix bukan kata kunci di JavaScript.')">fix</button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <section class="lesson" id="latihan">
+      <span class="lesson-number">Latihan Akhir</span>
+      <h2>Bikin to-do list sederhana</h2>
+      <p>Buat aplikasi to-do list yang bisa menambah dan menghapus tugas. Data disimpan di LocalStorage agar tidak hilang saat refresh.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Tugas</div>
+        <h3>Ketentuan</h3>
+        <ol>
+          <li>Ada input text untuk mengetik tugas baru.</li>
+          <li>Ada tombol "Tambah" untuk menyimpan tugas.</li>
+          <li>Daftar tugas tampil di bawah.</li>
+          <li>Setiap tugas ada tombol "Hapus" di sebelahnya.</li>
+          <li>Data disimpan di localStorage — tidak hilang saat refresh.</li>
+        </ol>
+
+        <details>
+          <summary>Lihat contoh jawaban</summary>
+          <div class="code-wrapper" style="margin-top:1rem;">
+            <div class="code-header">
+              <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+              <span class="code-filename">todo.html</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;To-Do List&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      font-family: Arial;
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    input, button { padding: 8px; font-size: 16px; }
+    ul { list-style: none; padding: 0; }
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background: #f5f5f5;
+      margin-bottom: 6px;
+      border-radius: 6px;
+    }
+    .hapus {
+      background: tomato;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;To-Do List&lt;/h1&gt;
+  &lt;input type="text" id="inputTugas" placeholder="Tugas baru..."&gt;
+  &lt;button id="btnTambah"&gt;Tambah&lt;/button&gt;
+  &lt;ul id="daftar"&gt;&lt;/ul&gt;
+
+  &lt;script&gt;
+    const input = document.querySelector("#inputTugas");
+    const btn = document.querySelector("#btnTambah");
+    const daftar = document.querySelector("#daftar");
+
+    // Ambil data dari localStorage
+    let tugas = JSON.parse(localStorage.getItem("tugas") || "[]");
+
+    function render() {
+      daftar.innerHTML = "";
+      tugas.forEach((t, i) =&gt; {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          &lt;span&gt;${t}&lt;/span&gt;
+          &lt;button class="hapus" data-i="${i}"&gt;Hapus&lt;/button&gt;
+        `;
+        daftar.appendChild(li);
+      });
+    }
+
+    function simpan() {
+      localStorage.setItem("tugas", JSON.stringify(tugas));
+    }
+
+    btn.addEventListener("click", () =&gt; {
+      const teks = input.value.trim();
+      if (teks === "") return;
+      tugas.push(teks);
+      simpan();
+      render();
+      input.value = "";
+      input.focus();
+    });
+
+    daftar.addEventListener("click", (e) =&gt; {
+      if (e.target.classList.contains("hapus")) {
+        const i = e.target.dataset.i;
+        tugas.splice(i, 1);
+        simpan();
+        render();
+      }
+    });
+
+    // Enter di input = klik tambah
+    input.addEventListener("keydown", (e) =&gt; {
+      if (e.key === "Enter") btn.click();
+    });
+
+    render();
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <div class="success" style="margin-top:1rem;">
+            <strong>Bonus challenge</strong>
+            Coba tambahkan fitur: checkbox di setiap tugas untuk menandai selesai, dan style tugas yang sudah selesai dengan text-decoration: line-through.
+          </div>
+        </details>
+      </div>
+
+      <button class="mark-complete" data-topic="javascript" data-lesson="latihan">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="cheatsheet">
+      <span class="lesson-number">Cheatsheet</span>
+      <h2>Ringkasan JavaScript</h2>
+
+      <table>
+        <thead><tr><th>Sintaks</th><th>Fungsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>const x = 10;</code></td><td>Variabel tetap</td></tr>
+          <tr><td><code>let y = 20;</code></td><td>Variabel bisa berubah</td></tr>
+          <tr><td><code>console.log(x)</code></td><td>Cetak ke console</td></tr>
+          <tr><td><code>if (x &gt; 5) { ... }</code></td><td>Kondisi</td></tr>
+          <tr><td><code>x === y ? "ya" : "tidak"</code></td><td>Ternary</td></tr>
+          <tr><td><code>for (let i=0; i&lt;5; i++)</code></td><td>Loop biasa</td></tr>
+          <tr><td><code>arr.forEach(x =&gt; {...})</code></td><td>Loop array</td></tr>
+          <tr><td><code>arr.map(x =&gt; x*2)</code></td><td>Transform array</td></tr>
+          <tr><td><code>arr.filter(x =&gt; x&gt;5)</code></td><td>Saring array</td></tr>
+          <tr><td><code>function f(a) { return a; }</code></td><td>Fungsi</td></tr>
+          <tr><td><code>const f = (a) =&gt; a*2;</code></td><td>Arrow function</td></tr>
+          <tr><td><code>document.querySelector('#id')</code></td><td>Pilih elemen</td></tr>
+          <tr><td><code>document.querySelectorAll('.x')</code></td><td>Pilih banyak elemen</td></tr>
+          <tr><td><code>el.textContent = "..."</code></td><td>Ganti teks</td></tr>
+          <tr><td><code>el.innerHTML = "..."</code></td><td>Ganti HTML</td></tr>
+          <tr><td><code>el.style.color = "red"</code></td><td>Ganti gaya</td></tr>
+          <tr><td><code>el.classList.add/remove/toggle</code></td><td>Ganti class</td></tr>
+          <tr><td><code>el.addEventListener('click', fn)</code></td><td>Pasang event</td></tr>
+          <tr><td><code>localStorage.setItem(k, v)</code></td><td>Simpan data</td></tr>
+          <tr><td><code>localStorage.getItem(k)</code></td><td>Ambil data</td></tr>
+          <tr><td><code>JSON.stringify(obj)</code></td><td>Object → string</td></tr>
+          <tr><td><code>JSON.parse(str)</code></td><td>String → object</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <nav class="lesson-foot-nav">
+      <a href="css.html" class="foot-nav-link">
+        <span class="fn-label">← Bab sebelumnya</span>
+        <span class="fn-title">CSS</span>
+      </a>
+      <a href="php.html" class="foot-nav-link next">
+        <span class="fn-label">Bab berikutnya →</span>
+        <span class="fn-title">PHP</span>
+      </a>
+    </nav>
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="logo-dot"></span>labcodeku</div>
+        <p>Tempat belajar web dengan bahasa yang ramah dan contoh yang bisa langsung dicoba.</p>
+      </div>
+      <div>
+        <h4>Topik</h4>
+        <ul>
+          <li><a href="html.html">HTML</a></li>
+          <li><a href="css.html">CSS</a></li>
+          <li><a href="javascript.html">JavaScript</a></li>
+          <li><a href="php.html">PHP</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Alat</h4>
+        <ul>
+          <li><a href="playground.html">Playground</a></li>
+          <li><a href="#cheatsheet">Cheatsheet</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Referensi</h4>
+        <ul>
+          <li><a href="https://developer.mozilla.org/id/" target="_blank" rel="noopener">MDN Web Docs</a></li>
+          <li><a href="https://caniuse.com" target="_blank" rel="noopener">Can I Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 labcodeku.my.id &nbsp;·&nbsp; dibuat dengan <span class="heart">♥</span>
+    </div>
+  </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" aria-label="Ke atas">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="assets/main.js"></script>
+<script>
+  // Demo klik & live input di halaman ini
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('demoKlikBtn');
+    const pesan = document.getElementById('demoKlikPesan');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        pesan.textContent = 'Kamu klik tombolnya!';
+        pesan.style.color = 'tomato';
+        pesan.style.fontWeight = '600';
+      });
+    }
+
+    const namaInput = document.getElementById('demoLiveNama');
+    const namaOutput = document.getElementById('demoLiveOutput');
+    if (namaInput) {
+      namaInput.addEventListener('input', (e) => {
+        const v = e.target.value.trim();
+        namaOutput.textContent = v ? `Halo, ${v}!` : 'Halo, ...';
+      });
+    }
+  });
+</script>
+</body>
+</html>

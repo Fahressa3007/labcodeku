@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Belajar PHP dari nol. Sintaks dasar, variabel, form, database, sampai include file.">
+<title>Belajar PHP — labcodeku</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-topic="php">
+
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>labcodeku</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="html.html">HTML</a></li>
+      <li><a href="css.html">CSS</a></li>
+      <li><a href="javascript.html">JavaScript</a></li>
+      <li><a href="php.html" class="active">PHP</a></li>
+      <li><a href="playground.html">Playground</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<div class="lesson-layout">
+  <aside class="sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle">Daftar materi <span>▼</span></button>
+    <div class="sidebar-title">Bab 04 — PHP</div>
+    <ol>
+      <li><a href="#l1" data-lesson="l1">Apa itu PHP?</a></li>
+      <li><a href="#l2" data-lesson="l2">Setup lingkungan</a></li>
+      <li><a href="#l3" data-lesson="l3">Sintaks dasar</a></li>
+      <li><a href="#l4" data-lesson="l4">Variabel &amp; tipe data</a></li>
+      <li><a href="#l5" data-lesson="l5">Kondisi &amp; loop</a></li>
+      <li><a href="#l6" data-lesson="l6">Array</a></li>
+      <li><a href="#l7" data-lesson="l7">Fungsi</a></li>
+      <li><a href="#l8" data-lesson="l8">Terima data form</a></li>
+      <li><a href="#l9" data-lesson="l9">Include file</a></li>
+      <li><a href="#l10" data-lesson="l10">Database (pengantar)</a></li>
+      <li><a href="#latihan" data-lesson="latihan">Latihan akhir</a></li>
+      <li><a href="#cheatsheet" data-lesson="cheat">Cheatsheet</a></li>
+    </ol>
+  </aside>
+
+  <main class="lesson-main">
+    <div class="page-header">
+      <span class="section-label">— Bab 04</span>
+      <h1>PHP — bahasa di <em class="accent">server</em>.</h1>
+      <p class="subtitle">
+        HTML, CSS, JavaScript berjalan di browser pengunjung. PHP berbeda — dia berjalan di <strong>server</strong>. Inilah yang memungkinkan website mengingat data, memproses form, membuat sistem login, dan terhubung ke database.
+      </p>
+    </div>
+
+    <section class="lesson" id="l1">
+      <span class="lesson-number">Materi 01</span>
+      <h2>Apa itu PHP?</h2>
+      <p>
+        PHP (<em>PHP: Hypertext Preprocessor</em>) adalah bahasa pemrograman yang berjalan di <strong>server</strong>. Hasilnya dikirim ke browser pengunjung sebagai HTML biasa.
+      </p>
+
+      <h3>Alur kerja</h3>
+      <ol>
+        <li>Pengunjung buka <code>halaman.php</code> di browser.</li>
+        <li>Request dikirim ke server.</li>
+        <li>Server menjalankan code PHP di file tersebut.</li>
+        <li>Hasilnya (biasanya HTML) dikirim balik ke browser.</li>
+        <li>Pengunjung melihat halaman — mereka tidak pernah tahu ada PHP di belakangnya.</li>
+      </ol>
+
+      <h3>Bisa apa saja dengan PHP?</h3>
+      <ul>
+        <li>Memproses form kontak, mengirim email.</li>
+        <li>Membuat sistem login dan registrasi user.</li>
+        <li>Simpan dan ambil data dari database (MySQL).</li>
+        <li>Upload file, manipulasi gambar.</li>
+        <li>Membuat CMS seperti WordPress (yang memang dibangun pakai PHP).</li>
+        <li>Membuat API yang diakses aplikasi mobile.</li>
+      </ul>
+
+      <div class="info">
+        <strong>Siapa yang pakai PHP?</strong>
+        Facebook (sebagian besar), WordPress, Wikipedia, Mailchimp, Slack (sebagian). PHP adalah salah satu bahasa paling banyak dipakai di web.
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l1">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l2">
+      <span class="lesson-number">Materi 02</span>
+      <h2>Setup lingkungan PHP</h2>
+      <p>
+        Tidak seperti HTML/CSS/JS yang cukup double-click file-nya, PHP butuh <strong>web server</strong> untuk berjalan. Cara termudah untuk setup di komputer lokal:
+      </p>
+
+      <h3>Pilihan 1: XAMPP (paling populer)</h3>
+      <ol>
+        <li>Download XAMPP dari <a href="https://www.apachefriends.org/" target="_blank" rel="noopener">apachefriends.org</a>.</li>
+        <li>Install dengan klik Next-Next-Finish.</li>
+        <li>Buka XAMPP Control Panel, klik "Start" pada Apache (dan MySQL kalau butuh database).</li>
+        <li>File PHP disimpan di folder <code>C:\xampp\htdocs\</code> (Windows) atau <code>/Applications/XAMPP/htdocs/</code> (Mac).</li>
+        <li>Akses di browser: <code>http://localhost/nama-folder/file.php</code></li>
+      </ol>
+
+      <h3>Pilihan 2: Laragon (rekomendasi untuk Windows)</h3>
+      <p>Lebih ringan dan modern. Download dari <a href="https://laragon.org/" target="_blank" rel="noopener">laragon.org</a>, lalu start.</p>
+
+      <h3>Test instalasi</h3>
+      <p>Buat file <code>test.php</code> di folder htdocs, isi:</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">test.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+phpinfo();
+?&gt;</code></pre>
+      </div>
+      <p>Buka <code>http://localhost/test.php</code>. Kalau muncul halaman info PHP warna ungu, berarti berhasil!</p>
+
+      <div class="warn">
+        <strong>Jangan double-click file PHP!</strong>
+        Kalau kamu cuma double-click file <code>.php</code> seperti HTML, dia akan terbuka sebagai teks — bukan dijalankan. PHP <strong>wajib</strong> diakses lewat <code>http://localhost/...</code> agar server bisa memprosesnya.
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l2">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l3">
+      <span class="lesson-number">Materi 03</span>
+      <h2>Sintaks dasar PHP</h2>
+      <p>Code PHP diapit tag <code>&lt;?php ... ?&gt;</code>. Semua yang di luar tag itu dianggap HTML biasa.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">halo.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;h1&gt;
+    &lt;?php echo "Halo dari PHP!"; ?&gt;
+  &lt;/h1&gt;
+
+  &lt;?php
+    // Komentar satu baris
+
+    # Juga komentar satu baris
+
+    /*
+      Komentar
+      banyak baris
+    */
+
+    $nama = "Budi";
+    echo "&lt;p&gt;Selamat datang, $nama&lt;/p&gt;";
+  ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+
+      <div class="demo-wrapper">
+        <div class="demo-header"><span>Hasil di browser</span></div>
+        <div class="demo-body">
+          <h1>Halo dari PHP!</h1>
+          <p>Selamat datang, Budi</p>
+        </div>
+      </div>
+
+      <h3>Aturan penting</h3>
+      <ul>
+        <li>Setiap perintah diakhiri titik koma (<code>;</code>).</li>
+        <li>Variabel diawali dengan <code>$</code>.</li>
+        <li>PHP <em>case-sensitive</em> untuk variabel (<code>$nama</code> dan <code>$Nama</code> beda).</li>
+        <li>Tapi PHP <em>tidak case-sensitive</em> untuk keyword (<code>echo</code> dan <code>ECHO</code> sama).</li>
+      </ul>
+
+      <h3>Perintah output</h3>
+      <ul>
+        <li><code>echo "teks";</code> — cetak teks ke halaman.</li>
+        <li><code>print "teks";</code> — sama dengan echo, tapi bisa return nilai.</li>
+        <li><code>var_dump($x);</code> — cetak variabel lengkap dengan tipenya (untuk debugging).</li>
+        <li><code>print_r($arr);</code> — cetak array dengan rapi.</li>
+      </ul>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l3">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l4">
+      <span class="lesson-number">Materi 04</span>
+      <h2>Variabel &amp; tipe data</h2>
+      <p>Variabel di PHP selalu diawali <code>$</code>. Tipe data tidak perlu dideklarasikan — PHP otomatis menentukan.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">variabel.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+$nama = "Ani";          // String
+$umur = 25;             // Integer
+$tinggi = 165.5;        // Float
+$sudahLulus = true;     // Boolean
+$nilai = null;          // Null
+
+echo $nama;  // Ani
+echo "&lt;br&gt;";
+echo $umur;  // 25
+?&gt;</code></pre>
+      </div>
+
+      <h3>Menggabung string</h3>
+      <p>Di PHP, pakai titik (<code>.</code>) untuk gabung string, BUKAN tambah (<code>+</code>).</p>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">gabung-string.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+$nama = "Budi";
+$umur = 20;
+
+// Cara 1: concatenation dengan titik
+echo "Nama: " . $nama . ", Umur: " . $umur;
+
+// Cara 2: interpolation (hanya dengan double quote)
+echo "Nama: $nama, Umur: $umur";
+
+// Cara 3: dengan kurung kurawal (lebih jelas)
+echo "Nama: {$nama}, Umur: {$umur}";
+?&gt;</code></pre>
+      </div>
+
+      <div class="warn">
+        <strong>Double vs single quote</strong>
+        <code>"Halo $nama"</code> → variabel diganti nilainya.<br>
+        <code>'Halo $nama'</code> → tidak, ditulis apa adanya.<br>
+        Gunakan single quote kalau tidak perlu interpolasi — sedikit lebih cepat.
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l4">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l5">
+      <span class="lesson-number">Materi 05</span>
+      <h2>Kondisi &amp; perulangan</h2>
+      <p>Sintaks PHP mirip dengan JavaScript. Kalau kamu sudah belajar JS, di sini hanya tinggal membiasakan <code>$</code> di depan variabel.</p>
+
+      <h3>if / else</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">kondisi.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+$nilai = 78;
+
+if ($nilai &gt;= 90) {
+    echo "A";
+} elseif ($nilai &gt;= 75) {
+    echo "B";
+} elseif ($nilai &gt;= 60) {
+    echo "C";
+} else {
+    echo "D";
+}
+// Output: B
+?&gt;</code></pre>
+      </div>
+
+      <h3>for</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">for.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+for ($i = 1; $i &lt;= 5; $i++) {
+    echo "Angka: $i &lt;br&gt;";
+}
+// Output:
+// Angka: 1
+// Angka: 2
+// Angka: 3
+// Angka: 4
+// Angka: 5
+?&gt;</code></pre>
+      </div>
+
+      <h3>foreach (untuk array)</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">foreach.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+$buah = ["apel", "mangga", "jeruk"];
+
+foreach ($buah as $item) {
+    echo "Saya suka $item &lt;br&gt;";
+}
+?&gt;</code></pre>
+      </div>
+
+      <h3>while</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">while.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+$i = 1;
+while ($i &lt;= 5) {
+    echo $i . " ";
+    $i++;
+}
+// Output: 1 2 3 4 5
+?&gt;</code></pre>
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l5">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l6">
+      <span class="lesson-number">Materi 06</span>
+      <h2>Array di PHP</h2>
+      <p>PHP punya dua jenis array:</p>
+
+      <h3>1. Indexed array (akses pakai angka)</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">indexed.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+// Cara modern
+$buah = ["apel", "mangga", "jeruk"];
+
+// Cara lama (masih jalan)
+$buah = array("apel", "mangga", "jeruk");
+
+echo $buah[0];           // apel
+echo count($buah);       // 3
+$buah[] = "pisang";      // tambah di akhir
+?&gt;</code></pre>
+      </div>
+
+      <h3>2. Associative array (akses pakai key)</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">associative.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+$user = [
+    "nama"  =&gt; "Ani",
+    "umur"  =&gt; 22,
+    "email" =&gt; "ani@contoh.com"
+];
+
+echo $user["nama"];   // Ani
+echo $user["umur"];   // 22
+
+// Tambah data
+$user["kota"] = "Surabaya";
+
+// Loop dengan key &amp; value
+foreach ($user as $key =&gt; $value) {
+    echo "$key: $value &lt;br&gt;";
+}
+?&gt;</code></pre>
+      </div>
+
+      <div class="demo-wrapper">
+        <div class="demo-header"><span>Output contoh 2</span></div>
+        <div class="demo-body" style="font-family: monospace;">
+          nama: Ani<br>
+          umur: 22<br>
+          email: ani@contoh.com<br>
+          kota: Surabaya
+        </div>
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l6">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l7">
+      <span class="lesson-number">Materi 07</span>
+      <h2>Fungsi</h2>
+      <p>Fungsi didefinisikan dengan keyword <code>function</code>.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">fungsi.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+// Fungsi tanpa parameter
+function sapa() {
+    echo "Halo!";
+}
+
+// Fungsi dengan parameter &amp; return
+function tambah($a, $b) {
+    return $a + $b;
+}
+
+// Parameter default
+function sapaNama($nama = "Teman") {
+    return "Halo, $nama!";
+}
+
+// Pakai
+sapa();                        // Halo!
+echo tambah(3, 5);            // 8
+echo sapaNama();              // Halo, Teman!
+echo sapaNama("Budi");        // Halo, Budi!
+?&gt;</code></pre>
+      </div>
+
+      <h3>Type hinting (opsional tapi disarankan)</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">type-hint.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+// Tentukan tipe parameter &amp; return
+function tambah(int $a, int $b): int {
+    return $a + $b;
+}
+
+echo tambah(3, 5);   // 8
+// echo tambah("a", 5); // error!
+?&gt;</code></pre>
+      </div>
+
+      <div class="info">
+        <strong>Built-in function PHP</strong>
+        PHP punya ratusan fungsi bawaan. Contoh: <code>strlen($s)</code> (panjang string), <code>strtoupper($s)</code> (jadi kapital), <code>date("Y-m-d")</code> (tanggal hari ini), <code>count($arr)</code> (jumlah elemen array). Cari di <a href="https://www.php.net/manual/" target="_blank" rel="noopener">PHP Manual</a> kalau butuh.
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l7">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l8">
+      <span class="lesson-number">Materi 08</span>
+      <h2>Menerima data dari form</h2>
+      <p>Inilah kekuatan utama PHP: memproses data yang dikirim dari form HTML.</p>
+
+      <h3>Dua cara kirim data</h3>
+      <ul>
+        <li><code>$_POST</code> — data tersembunyi, untuk form kirim (login, registrasi, pesan).</li>
+        <li><code>$_GET</code> — data di URL, untuk pencarian atau filter.</li>
+      </ul>
+
+      <h3>Contoh lengkap: form kontak</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">kontak.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;h1&gt;Form Kontak&lt;/h1&gt;
+
+  &lt;form method="POST" action="kontak.php"&gt;
+    &lt;label&gt;Nama:&lt;/label&gt;
+    &lt;input type="text" name="nama" required&gt;
+
+    &lt;label&gt;Email:&lt;/label&gt;
+    &lt;input type="email" name="email" required&gt;
+
+    &lt;label&gt;Pesan:&lt;/label&gt;
+    &lt;textarea name="pesan" required&gt;&lt;/textarea&gt;
+
+    &lt;button type="submit"&gt;Kirim&lt;/button&gt;
+  &lt;/form&gt;
+
+  &lt;?php
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      // Ambil &amp; bersihkan input
+      $nama  = htmlspecialchars(trim($_POST["nama"]));
+      $email = htmlspecialchars(trim($_POST["email"]));
+      $pesan = htmlspecialchars(trim($_POST["pesan"]));
+
+      // Validasi
+      if (empty($nama) || empty($email) || empty($pesan)) {
+          echo "&lt;p style='color:red'&gt;
+                  Semua field wajib diisi!
+                &lt;/p&gt;";
+      } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          echo "&lt;p style='color:red'&gt;
+                  Email tidak valid!
+                &lt;/p&gt;";
+      } else {
+          // Data valid — simpan atau kirim email
+          echo "&lt;h2&gt;Terima kasih, $nama!&lt;/h2&gt;";
+          echo "&lt;p&gt;Pesan kamu sudah diterima.&lt;/p&gt;";
+      }
+  }
+  ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+
+      <h3>Fungsi keamanan penting</h3>
+      <table>
+        <thead><tr><th>Fungsi</th><th>Kegunaan</th></tr></thead>
+        <tbody>
+          <tr><td><code>htmlspecialchars()</code></td><td>Ubah karakter HTML (&lt;, &gt;, ") jadi aman — mencegah XSS</td></tr>
+          <tr><td><code>trim()</code></td><td>Hapus spasi di awal &amp; akhir</td></tr>
+          <tr><td><code>empty()</code></td><td>Cek apakah kosong</td></tr>
+          <tr><td><code>filter_var(..., FILTER_VALIDATE_EMAIL)</code></td><td>Validasi format email</td></tr>
+        </tbody>
+      </table>
+
+      <div class="warn">
+        <strong>Keamanan adalah kunci</strong>
+        Jangan pernah <em>langsung</em> pakai <code>$_POST</code> atau <code>$_GET</code> tanpa dibersihkan. Selalu:<br>
+        1. <code>trim()</code> untuk hilangkan spasi.<br>
+        2. <code>htmlspecialchars()</code> untuk mencegah XSS.<br>
+        3. Validasi format (email, angka, dsb).<br>
+        4. Pakai <em>prepared statement</em> saat menyimpan ke database.
+      </div>
+
+      <h3>$_GET dari URL</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">cari.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+// URL: cari.php?q=laptop&amp;kategori=elektronik
+$query = $_GET["q"] ?? "";
+$kategori = $_GET["kategori"] ?? "semua";
+
+echo "Kamu cari: $query &lt;br&gt;";
+echo "Di kategori: $kategori";
+?&gt;</code></pre>
+      </div>
+
+      <div class="info">
+        <strong>Operator ?? (null coalescing)</strong>
+        <code>$_GET["q"] ?? ""</code> artinya: "ambil $_GET['q'], kalau tidak ada pakai string kosong". Cegah error kalau parameter tidak dikirim.
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l8">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l9">
+      <span class="lesson-number">Materi 09</span>
+      <h2>Include file — memecah kode</h2>
+      <p>Saat project bertambah besar, memecah kode jadi beberapa file sangat membantu. Pakai <code>include</code> atau <code>require</code> untuk menyisipkan file PHP lain.</p>
+
+      <table>
+        <thead><tr><th>Perintah</th><th>Kalau file tidak ditemukan</th></tr></thead>
+        <tbody>
+          <tr><td><code>include</code></td><td>Warning, tapi program lanjut</td></tr>
+          <tr><td><code>require</code></td><td>Error fatal, program berhenti</td></tr>
+          <tr><td><code>include_once</code></td><td>Sama dengan include, tapi cegah include dua kali</td></tr>
+          <tr><td><code>require_once</code></td><td>Sama dengan require, tapi cegah include dua kali</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Contoh: struktur halaman</h3>
+      <p>Bayangkan sebuah website punya 5 halaman, semuanya punya header dan footer yang sama. Tanpa include, kamu harus copy-paste 5 kali. Dengan include, cukup satu file.</p>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">header.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Website Saya&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;nav&gt;
+    &lt;a href="index.php"&gt;Home&lt;/a&gt;
+    &lt;a href="tentang.php"&gt;Tentang&lt;/a&gt;
+    &lt;a href="kontak.php"&gt;Kontak&lt;/a&gt;
+  &lt;/nav&gt;</code></pre>
+      </div>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">footer.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">  &lt;footer&gt;
+    &lt;p&gt;&amp;copy; 2026 Website Saya&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">index.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php include "header.php"; ?&gt;
+
+&lt;main&gt;
+  &lt;h1&gt;Halaman Utama&lt;/h1&gt;
+  &lt;p&gt;Selamat datang!&lt;/p&gt;
+&lt;/main&gt;
+
+&lt;?php include "footer.php"; ?&gt;</code></pre>
+      </div>
+
+      <div class="tip">
+        <strong>Keuntungan include</strong>
+        Kalau suatu saat mau ubah menu navigasi, cukup edit <code>header.php</code> sekali — semua halaman yang meng-include-nya otomatis ikut berubah. Ini prinsip <strong>DRY</strong> (Don't Repeat Yourself).
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l9">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="l10">
+      <span class="lesson-number">Materi 10</span>
+      <h2>Database — pengantar MySQL</h2>
+      <p>
+        Untuk menyimpan data permanen (bukan cuma di session satu kali), kita pakai database. MySQL adalah pasangan klasik PHP.
+      </p>
+
+      <h3>Koneksi ke database</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">db.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "nama_database";
+
+try {
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$db;charset=utf8mb4",
+        $user,
+        $pass
+    );
+    $pdo-&gt;setAttribute(
+        PDO::ATTR_ERRMODE,
+        PDO::ERRMODE_EXCEPTION
+    );
+} catch (PDOException $e) {
+    die("Koneksi gagal: " . $e-&gt;getMessage());
+}
+?&gt;</code></pre>
+      </div>
+
+      <h3>Ambil data (SELECT)</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">tampil-data.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+require "db.php";
+
+$sql = "SELECT * FROM users ORDER BY id DESC";
+$stmt = $pdo-&gt;query($sql);
+$users = $stmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($users as $user) {
+    echo "&lt;p&gt;{$user['nama']} - {$user['email']}&lt;/p&gt;";
+}
+?&gt;</code></pre>
+      </div>
+
+      <h3>Simpan data (INSERT) — pakai prepared statement</h3>
+      <div class="code-wrapper">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+          <span class="code-filename">simpan.php</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+<pre><code class="language-php">&lt;?php
+require "db.php";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $nama  = trim($_POST["nama"]);
+    $email = trim($_POST["email"]);
+
+    // Prepared statement — aman dari SQL injection
+    $sql = "INSERT INTO users (nama, email)
+            VALUES (:nama, :email)";
+    $stmt = $pdo-&gt;prepare($sql);
+    $stmt-&gt;execute([
+        ":nama"  =&gt; $nama,
+        ":email" =&gt; $email
+    ]);
+
+    echo "Data berhasil disimpan!";
+}
+?&gt;</code></pre>
+      </div>
+
+      <div class="warn">
+        <strong>Selalu pakai prepared statement!</strong>
+        Jangan pernah langsung menyisipkan variabel ke query SQL seperti: <code>"INSERT ... VALUES ('$nama')"</code>. Ini rentan <em>SQL injection</em> — hacker bisa merusak atau mencuri database-mu. Prepared statement (dengan <code>:nama</code> atau <code>?</code>) otomatis aman.
+      </div>
+
+      <div class="info">
+        <strong>Belajar database lebih dalam</strong>
+        Bagian ini baru pengantar. Topik database (MySQL, SQL) sangat luas — ada SELECT, INSERT, UPDATE, DELETE, JOIN, INDEX, dll. Setelah paham PHP dasar, pelajari MySQL dan SQL — ini kombinasi yang sangat powerful.
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="l10">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <div class="quiz">
+      <div class="quiz-label">Kuis Cepat</div>
+      <h3>Variabel di PHP selalu diawali dengan karakter apa?</h3>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="checkQuiz(this, false, '# dipakai untuk komentar di PHP.')">#</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, '@ dipakai untuk menyembunyikan error.')">@</button>
+        <button class="quiz-option" data-correct="true" onclick="checkQuiz(this, true, 'Benar! Semua variabel di PHP diawali dengan $ (dollar sign).')">$</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, '% bukan prefix variabel di PHP.')">%</button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <section class="lesson" id="latihan">
+      <span class="lesson-number">Latihan Akhir</span>
+      <h2>Form kontak yang aman</h2>
+      <p>Buat form kontak lengkap: terima input, validasi, tampilkan hasil dengan aman, simpan ke file teks.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Tugas</div>
+        <h3>Ketentuan</h3>
+        <ol>
+          <li>Form dengan 3 field: nama, email, pesan.</li>
+          <li>Validasi: semua wajib diisi, email harus valid, nama minimal 3 huruf.</li>
+          <li>Jika ada error, tampilkan pesan error di atas form.</li>
+          <li>Jika sukses, tampilkan "Terima kasih, [nama]!" dan simpan pesan ke file <code>pesan.txt</code>.</li>
+          <li>Setelah submit, form tetap terlihat agar bisa kirim lagi.</li>
+        </ol>
+
+        <details>
+          <summary>Lihat contoh jawaban</summary>
+          <div class="code-wrapper" style="margin-top:1rem;">
+            <div class="code-header">
+              <div class="code-dots"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span></div>
+              <span class="code-filename">kontak.php</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+<pre><code class="language-php">&lt;?php
+$errors = [];
+$sukses = false;
+$nama = $email = $pesan = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $nama  = trim($_POST["nama"] ?? "");
+    $email = trim($_POST["email"] ?? "");
+    $pesan = trim($_POST["pesan"] ?? "");
+
+    if (strlen($nama) &lt; 3) {
+        $errors[] = "Nama minimal 3 huruf.";
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Email tidak valid.";
+    }
+    if (empty($pesan)) {
+        $errors[] = "Pesan wajib diisi.";
+    }
+
+    if (empty($errors)) {
+        // Simpan ke file
+        $waktu = date("Y-m-d H:i:s");
+        $baris = "[$waktu] $nama ($email): $pesan\n";
+        file_put_contents("pesan.txt", $baris, FILE_APPEND);
+
+        $sukses = true;
+        $nama = $email = $pesan = "";
+    }
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Form Kontak&lt;/title&gt;
+  &lt;style&gt;
+    body { font-family: Arial; max-width: 500px;
+           margin: 2rem auto; padding: 1rem; }
+    input, textarea { width: 100%; padding: 8px;
+                      margin: 5px 0 15px; }
+    button { padding: 10px 20px; background: #e8632d;
+             color: white; border: none; cursor: pointer; }
+    .error { background: #fde0e0; color: #c00;
+             padding: 10px; border-radius: 6px; }
+    .ok    { background: #dcf0d8; color: #080;
+             padding: 10px; border-radius: 6px; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Kontak Kami&lt;/h1&gt;
+
+  &lt;?php if (!empty($errors)): ?&gt;
+    &lt;div class="error"&gt;
+      &lt;strong&gt;Ada yang perlu diperbaiki:&lt;/strong&gt;
+      &lt;ul&gt;
+        &lt;?php foreach ($errors as $e): ?&gt;
+          &lt;li&gt;&lt;?= htmlspecialchars($e) ?&gt;&lt;/li&gt;
+        &lt;?php endforeach; ?&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;?php endif; ?&gt;
+
+  &lt;?php if ($sukses): ?&gt;
+    &lt;div class="ok"&gt;
+      Terima kasih! Pesan kamu sudah tersimpan.
+    &lt;/div&gt;
+  &lt;?php endif; ?&gt;
+
+  &lt;form method="POST"&gt;
+    &lt;label&gt;Nama:&lt;/label&gt;
+    &lt;input type="text" name="nama"
+           value="&lt;?= htmlspecialchars($nama) ?&gt;"&gt;
+
+    &lt;label&gt;Email:&lt;/label&gt;
+    &lt;input type="email" name="email"
+           value="&lt;?= htmlspecialchars($email) ?&gt;"&gt;
+
+    &lt;label&gt;Pesan:&lt;/label&gt;
+    &lt;textarea name="pesan" rows="5"&gt;&lt;?=
+        htmlspecialchars($pesan)
+    ?&gt;&lt;/textarea&gt;
+
+    &lt;button type="submit"&gt;Kirim&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <div class="success" style="margin-top:1rem;">
+            <strong>Perhatikan</strong>
+            - <code>&lt;?= ... ?&gt;</code> adalah singkatan dari <code>&lt;?php echo ... ?&gt;</code>.<br>
+            - Input <code>value="..."</code> diisi nilai sebelumnya agar user tidak perlu mengetik ulang kalau ada error.<br>
+            - <code>file_put_contents</code> dengan <code>FILE_APPEND</code> menambah baris baru tanpa menghapus data lama.
+          </div>
+        </details>
+      </div>
+
+      <button class="mark-complete" data-topic="php" data-lesson="latihan">○ Tandai sudah dipelajari</button>
+    </section>
+
+    <section class="lesson" id="cheatsheet">
+      <span class="lesson-number">Cheatsheet</span>
+      <h2>Ringkasan PHP</h2>
+
+      <table>
+        <thead><tr><th>Sintaks</th><th>Fungsi</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;?php ... ?&gt;</code></td><td>Tag buka/tutup PHP</td></tr>
+          <tr><td><code>&lt;?= $x ?&gt;</code></td><td>Singkatan echo</td></tr>
+          <tr><td><code>$nama = "Budi";</code></td><td>Variabel</td></tr>
+          <tr><td><code>echo "Halo";</code></td><td>Cetak ke halaman</td></tr>
+          <tr><td><code>var_dump($x);</code></td><td>Debug variabel</td></tr>
+          <tr><td><code>if (...) { } elseif { } else { }</code></td><td>Kondisi</td></tr>
+          <tr><td><code>for ($i=0; $i&lt;5; $i++) { }</code></td><td>Loop</td></tr>
+          <tr><td><code>foreach ($arr as $item) { }</code></td><td>Loop array</td></tr>
+          <tr><td><code>foreach ($arr as $k =&gt; $v) { }</code></td><td>Loop dengan key</td></tr>
+          <tr><td><code>function nama($p) { return $p; }</code></td><td>Fungsi</td></tr>
+          <tr><td><code>$_POST["nama"]</code></td><td>Data POST</td></tr>
+          <tr><td><code>$_GET["nama"]</code></td><td>Data GET</td></tr>
+          <tr><td><code>htmlspecialchars($x)</code></td><td>Amankan output</td></tr>
+          <tr><td><code>trim($x)</code></td><td>Hapus spasi</td></tr>
+          <tr><td><code>filter_var(..., FILTER_VALIDATE_EMAIL)</code></td><td>Cek email</td></tr>
+          <tr><td><code>include "file.php";</code></td><td>Sisipkan file</td></tr>
+          <tr><td><code>require "file.php";</code></td><td>Sisipkan (wajib)</td></tr>
+          <tr><td><code>session_start();</code></td><td>Mulai session</td></tr>
+          <tr><td><code>$_SESSION["nama"] = ...</code></td><td>Simpan session</td></tr>
+          <tr><td><code>date("Y-m-d")</code></td><td>Tanggal hari ini</td></tr>
+          <tr><td><code>count($arr)</code></td><td>Jumlah elemen array</td></tr>
+          <tr><td><code>strlen($s)</code></td><td>Panjang string</td></tr>
+          <tr><td><code>file_put_contents(...)</code></td><td>Tulis ke file</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <nav class="lesson-foot-nav">
+      <a href="javascript.html" class="foot-nav-link">
+        <span class="fn-label">← Bab sebelumnya</span>
+        <span class="fn-title">JavaScript</span>
+      </a>
+      <a href="playground.html" class="foot-nav-link next">
+        <span class="fn-label">Lanjut →</span>
+        <span class="fn-title">Coba Playground</span>
+      </a>
+    </nav>
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="logo-dot"></span>labcodeku</div>
+        <p>Tempat belajar web dengan bahasa yang ramah dan contoh yang bisa langsung dicoba.</p>
+      </div>
+      <div>
+        <h4>Topik</h4>
+        <ul>
+          <li><a href="html.html">HTML</a></li>
+          <li><a href="css.html">CSS</a></li>
+          <li><a href="javascript.html">JavaScript</a></li>
+          <li><a href="php.html">PHP</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Alat</h4>
+        <ul>
+          <li><a href="playground.html">Playground</a></li>
+          <li><a href="#cheatsheet">Cheatsheet</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Referensi</h4>
+        <ul>
+          <li><a href="https://www.php.net/manual/id/" target="_blank" rel="noopener">PHP Manual</a></li>
+          <li><a href="https://developer.mozilla.org/id/" target="_blank" rel="noopener">MDN Web Docs</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 labcodeku.my.id &nbsp;·&nbsp; dibuat dengan <span class="heart">♥</span>
+    </div>
+  </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" aria-label="Ke atas">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+<script src="assets/main.js"></script>
+</body>
+</html>
