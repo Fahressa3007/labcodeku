@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Playground HTML, CSS, dan JavaScript live di browser. Tidak perlu install apa-apa.">
+<title>Playground — labcodeku</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+.playground-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.playground-header {
+  margin-bottom: 1.5rem;
+}
+
+.playground-header h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
+}
+
+.playground-header p {
+  color: var(--ink-soft);
+  max-width: 720px;
+}
+
+.playground-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  padding: 0.85rem 1rem;
+  background: var(--cream-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.preset-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.preset-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-right: 0.3rem;
+}
+
+.preset-btn {
+  padding: 0.4rem 0.85rem;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.preset-btn:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.action-group { display: flex; gap: 0.5rem; align-items: center; }
+
+.action-btn {
+  padding: 0.55rem 1rem;
+  border-radius: 6px;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.action-btn-run {
+  background: var(--accent);
+  color: white;
+}
+.action-btn-run:hover { background: var(--accent-dark); }
+
+.action-btn-reset {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+}
+.action-btn-reset:hover { background: white; border-color: var(--ink); color: var(--ink); }
+
+.playground-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  height: calc(100vh - 280px);
+  min-height: 500px;
+}
+
+.editor-panel {
+  background: var(--code-bg);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-md);
+}
+
+.editor-tabs {
+  display: flex;
+  background: var(--code-bg-light);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.editor-tab {
+  padding: 0.85rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: #8b8b95;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+
+.editor-tab:hover { color: #ccc; }
+
+.editor-tab.active {
+  color: #fff;
+  background: var(--code-bg);
+  border-bottom-color: var(--accent);
+}
+
+.editor-tab .dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.editor-tab.html-tab .dot { background: #e8632d; }
+.editor-tab.css-tab .dot { background: #2d6fe8; }
+.editor-tab.js-tab .dot { background: #f4c430; }
+
+.editor-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor-content { display: none; flex: 1; position: relative; }
+.editor-content.active { display: flex; }
+
+.editor-textarea {
+  flex: 1;
+  width: 100%;
+  background: var(--code-bg);
+  color: #e0e0e0;
+  border: none;
+  padding: 1rem 1.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  resize: none;
+  outline: none;
+  tab-size: 2;
+}
+
+.editor-textarea::selection { background: rgba(232, 99, 45, 0.4); }
+
+.preview-panel {
+  background: white;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--line);
+}
+
+.preview-header {
+  padding: 0.85rem 1.25rem;
+  background: var(--cream-2);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-header-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.preview-header-label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+.preview-iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: white;
+}
+
+.help-section {
+  margin-top: 2rem;
+  padding: 1.5rem 1.75rem;
+  background: var(--cream-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+
+.help-section h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.75rem;
+}
+
+.help-section ul {
+  margin: 0.5rem 0 0 1.25rem;
+  color: var(--ink-soft);
+  font-size: 0.93rem;
+}
+
+.help-section li { margin-bottom: 0.4rem; }
+
+.help-section kbd {
+  background: white;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--ink);
+}
+
+@media (max-width: 960px) {
+  .playground-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .editor-panel, .preview-panel {
+    height: 400px;
+  }
+}
+
+@media (max-width: 640px) {
+  .playground-wrap { padding: 1.25rem; }
+  .playground-toolbar { flex-direction: column; align-items: stretch; }
+  .editor-tab { padding: 0.7rem 1rem; font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>labcodeku</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="html.html">HTML</a></li>
+      <li><a href="css.html">CSS</a></li>
+      <li><a href="javascript.html">JavaScript</a></li>
+      <li><a href="php.html">PHP</a></li>
+      <li><a href="playground.html" class="active">Playground</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<div class="playground-wrap">
+  <div class="playground-header">
+    <span class="section-label">— Coba langsung</span>
+    <h1>Playground</h1>
+    <p>
+      Tulis HTML, CSS, dan JavaScript di sini — hasilnya muncul langsung di panel sebelah. Tidak perlu install apa-apa, tidak perlu simpan file. Coba preset yang sudah disediakan, atau mulai dari nol.
+    </p>
+  </div>
+
+  <div class="playground-toolbar">
+    <div class="preset-group">
+      <span class="preset-label">Contoh:</span>
+      <button class="preset-btn" onclick="loadPreset('halo')">Halo Dunia</button>
+      <button class="preset-btn" onclick="loadPreset('counter')">Counter</button>
+      <button class="preset-btn" onclick="loadPreset('rainbow')">Rainbow text</button>
+      <button class="preset-btn" onclick="loadPreset('card')">Kartu profil</button>
+      <button class="preset-btn" onclick="loadPreset('calc')">Kalkulator</button>
+      <button class="preset-btn" onclick="loadPreset('clock')">Jam digital</button>
+    </div>
+    <div class="action-group">
+      <button class="action-btn action-btn-reset" onclick="resetPlayground()">↻ Kosongkan</button>
+      <button class="action-btn action-btn-run" onclick="runCode()">▶ Jalankan</button>
+    </div>
+  </div>
+
+  <div class="playground-grid">
+    <div class="editor-panel">
+      <div class="editor-tabs">
+        <button class="editor-tab html-tab active" onclick="switchEditor('html')">
+          <span class="dot"></span>HTML
+        </button>
+        <button class="editor-tab css-tab" onclick="switchEditor('css')">
+          <span class="dot"></span>CSS
+        </button>
+        <button class="editor-tab js-tab" onclick="switchEditor('js')">
+          <span class="dot"></span>JavaScript
+        </button>
+      </div>
+      <div class="editor-area">
+        <div class="editor-content active" id="html-editor">
+          <textarea class="editor-textarea" id="html-code" spellcheck="false" placeholder="Tulis HTML di sini..."></textarea>
+        </div>
+        <div class="editor-content" id="css-editor">
+          <textarea class="editor-textarea" id="css-code" spellcheck="false" placeholder="Tulis CSS di sini..."></textarea>
+        </div>
+        <div class="editor-content" id="js-editor">
+          <textarea class="editor-textarea" id="js-code" spellcheck="false" placeholder="Tulis JavaScript di sini..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview-panel">
+      <div class="preview-header">
+        <span class="preview-header-label">Preview</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted);">auto-update</span>
+      </div>
+      <iframe class="preview-iframe" id="preview" title="Preview"></iframe>
+    </div>
+  </div>
+
+  <div class="help-section">
+    <h3>💡 Tips Penggunaan</h3>
+    <ul>
+      <li>Preview <strong>otomatis terupdate</strong> setiap kali kamu berhenti mengetik ~600ms. Kalau tidak sabar, klik tombol <strong>▶ Jalankan</strong>.</li>
+      <li>Tekan <kbd>Tab</kbd> di editor untuk menambahkan 2 spasi (indentasi).</li>
+      <li>Coba preset di atas untuk melihat contoh, lalu modifikasi semaumu.</li>
+      <li>Kode tidak tersimpan saat tutup browser. Kalau mau disimpan, salin ke file <code>.html</code> di komputermu.</li>
+      <li>JavaScript <code>console.log</code> tampil di Console browser — tekan <kbd>F12</kbd> untuk membukanya.</li>
+    </ul>
+  </div>
+</div>
+
+<footer class="footer" style="margin-top: 3rem;">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="logo-dot"></span>labcodeku</div>
+        <p>Tempat belajar web dengan bahasa yang ramah dan contoh yang bisa langsung dicoba.</p>
+      </div>
+      <div>
+        <h4>Topik</h4>
+        <ul>
+          <li><a href="html.html">HTML</a></li>
+          <li><a href="css.html">CSS</a></li>
+          <li><a href="javascript.html">JavaScript</a></li>
+          <li><a href="php.html">PHP</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Alat</h4>
+        <ul>
+          <li><a href="playground.html">Playground</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Referensi</h4>
+        <ul>
+          <li><a href="https://developer.mozilla.org/id/" target="_blank" rel="noopener">MDN Web Docs</a></li>
+          <li><a href="https://caniuse.com" target="_blank" rel="noopener">Can I Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 labcodeku.my.id &nbsp;·&nbsp; dibuat dengan <span class="heart">♥</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+<script>
+// ============ PRESET CODES ============
+const presets = {
+  halo: {
+    html: `<h1>Halo, dunia!</h1>
+<p>Ini halaman pertama saya.</p>
+<p>Selamat datang di <strong>labcodeku</strong>.</p>
+
+<button onclick="sapa()">Tekan saya</button>`,
+    css: `body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #faf6ef;
+  color: #1a1a1a;
+  padding: 2rem;
+  text-align: center;
+}
+
+h1 {
+  color: #e8632d;
+  font-size: 2.5rem;
+}
+
+button {
+  padding: 10px 24px;
+  background: #e8632d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background: #c84d1c;
+  transform: translateY(-2px);
+}`,
+    js: `function sapa() {
+  alert('Halo juga!');
+}`
+  },
+
+  counter: {
+    html: `<div class="box">
+  <h1>Counter</h1>
+  <div class="angka" id="angka">0</div>
+  <div class="tombol">
+    <button onclick="ubah(-1)">−</button>
+    <button onclick="reset()">Reset</button>
+    <button onclick="ubah(1)">+</button>
+  </div>
+</div>`,
+    css: `body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.box {
+  background: white;
+  padding: 3rem;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+h1 {
+  margin: 0;
+  color: #444;
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.angka {
+  font-size: 6rem;
+  font-weight: bold;
+  color: #667eea;
+  margin: 1rem 0;
+  font-family: 'Courier New', monospace;
+}
+
+.tombol { display: flex; gap: 0.8rem; justify-content: center; }
+
+button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  background: #667eea;
+  color: white;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+button:hover { transform: scale(1.08); }`,
+    js: `let nilai = 0;
+const angka = document.getElementById('angka');
+
+function ubah(delta) {
+  nilai += delta;
+  angka.textContent = nilai;
+  angka.style.color = nilai > 0 ? '#28a745' :
+                      nilai < 0 ? '#dc3545' : '#667eea';
+}
+
+function reset() {
+  nilai = 0;
+  angka.textContent = 0;
+  angka.style.color = '#667eea';
+}`
+  },
+
+  rainbow: {
+    html: `<h1 id="judul">Rainbow Text!</h1>
+<p>Klik tombol untuk ubah warna</p>
+<button onclick="rainbow()">🎨 Pelangi!</button>`,
+    css: `body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #1a1a2e;
+  color: white;
+  text-align: center;
+  padding: 3rem;
+  min-height: 100vh;
+  margin: 0;
+}
+
+h1 {
+  font-size: 4rem;
+  margin: 2rem 0;
+  background: linear-gradient(90deg,
+    #ff6b6b, #ffd93d, #6bcf7f, #4ea5d9, #c678dd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: slide 3s linear infinite;
+  background-size: 200% auto;
+}
+
+@keyframes slide {
+  to { background-position: 200% center; }
+}
+
+button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  background: white;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 2rem;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+}`,
+    js: `const judul = document.getElementById('judul');
+const kata = ['Pelangi!', 'Keren!', 'Warna!', 'Indah!', 'Wow!'];
+
+function rainbow() {
+  const random = kata[Math.floor(Math.random() * kata.length)];
+  judul.textContent = random;
+  judul.style.transform = 'scale(1.2)';
+  setTimeout(() => judul.style.transform = 'scale(1)', 200);
+}`
+  },
+
+  card: {
+    html: `<div class="kartu">
+  <div class="avatar">🧑‍💻</div>
+  <h2>Budi Santoso</h2>
+  <p class="role">Web Developer</p>
+
+  <div class="info">
+    <div class="item">
+      <strong>120</strong>
+      <span>Project</span>
+    </div>
+    <div class="item">
+      <strong>3.5k</strong>
+      <span>Followers</span>
+    </div>
+    <div class="item">
+      <strong>245</strong>
+      <span>Following</span>
+    </div>
+  </div>
+
+  <button>Follow</button>
+</div>`,
+    css: `body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 1rem;
+}
+
+.kartu {
+  background: white;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  max-width: 320px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+h2 { margin: 0.5rem 0 0.3rem; color: #1a1a1a; }
+.role { color: #888; margin: 0 0 1.5rem; }
+
+.info {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 1.5rem;
+}
+
+.item strong {
+  display: block;
+  font-size: 1.3rem;
+  color: #1a1a1a;
+}
+
+.item span {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+button {
+  padding: 0.8rem 2.5rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}`,
+    js: `// Tombol follow bisa di-toggle
+document.querySelector('button').addEventListener('click', function() {
+  if (this.textContent === 'Follow') {
+    this.textContent = '✓ Following';
+    this.style.background = '#28a745';
+  } else {
+    this.textContent = 'Follow';
+    this.style.background = '#667eea';
+  }
+});`
+  },
+
+  calc: {
+    html: `<div class="kalku">
+  <div class="layar" id="layar">0</div>
+  <div class="tombol">
+    <button onclick="clr()">C</button>
+    <button onclick="hapus()">⌫</button>
+    <button onclick="tekan('%')">%</button>
+    <button class="op" onclick="tekan('/')">÷</button>
+
+    <button onclick="tekan('7')">7</button>
+    <button onclick="tekan('8')">8</button>
+    <button onclick="tekan('9')">9</button>
+    <button class="op" onclick="tekan('*')">×</button>
+
+    <button onclick="tekan('4')">4</button>
+    <button onclick="tekan('5')">5</button>
+    <button onclick="tekan('6')">6</button>
+    <button class="op" onclick="tekan('-')">−</button>
+
+    <button onclick="tekan('1')">1</button>
+    <button onclick="tekan('2')">2</button>
+    <button onclick="tekan('3')">3</button>
+    <button class="op" onclick="tekan('+')">+</button>
+
+    <button class="zero" onclick="tekan('0')">0</button>
+    <button onclick="tekan('.')">.</button>
+    <button class="sama" onclick="hitung()">=</button>
+  </div>
+</div>`,
+    css: `body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #2c3e50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.kalku {
+  background: #1a1a2e;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.layar {
+  background: #16213e;
+  color: white;
+  padding: 1.5rem 1rem;
+  font-size: 2.5rem;
+  text-align: right;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  font-family: 'Courier New', monospace;
+  min-height: 2.5rem;
+  overflow: hidden;
+}
+
+.tombol {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+}
+
+button {
+  padding: 1.2rem;
+  font-size: 1.2rem;
+  border: none;
+  background: #2a2a4e;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+button:hover { background: #3a3a6e; }
+button:active { transform: scale(0.95); }
+
+.op { background: #f39c12; }
+.op:hover { background: #e67e22; }
+
+.sama { background: #e74c3c; }
+.sama:hover { background: #c0392b; }
+
+.zero { grid-column: span 2; }`,
+    js: `let layar = document.getElementById('layar');
+let nilai = '';
+
+function tekan(n) {
+  if (nilai === '0' && n !== '.') nilai = '';
+  nilai += n;
+  layar.textContent = nilai;
+}
+
+function clr() {
+  nilai = '';
+  layar.textContent = '0';
+}
+
+function hapus() {
+  nilai = nilai.slice(0, -1);
+  layar.textContent = nilai || '0';
+}
+
+function hitung() {
+  try {
+    let hasil = eval(nilai);
+    layar.textContent = hasil;
+    nilai = hasil.toString();
+  } catch(e) {
+    layar.textContent = 'Error';
+    nilai = '';
+  }
+}`
+  },
+
+  clock: {
+    html: `<div class="jam-box">
+  <h1>Jam Digital</h1>
+  <div class="jam" id="jam">00:00:00</div>
+  <div class="tanggal" id="tanggal">—</div>
+</div>`,
+    css: `body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f0f1e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  color: white;
+}
+
+.jam-box {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+}
+
+h1 {
+  margin: 0 0 2rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.jam {
+  font-size: 5rem;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.05em;
+}
+
+.tanggal {
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.7);
+  margin-top: 0.5rem;
+  letter-spacing: 0.1em;
+}`,
+    js: `const hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+function pad(n) {
+  return n.toString().padStart(2, '0');
+}
+
+function update() {
+  const now = new Date();
+  const jam = pad(now.getHours()) + ':' +
+              pad(now.getMinutes()) + ':' +
+              pad(now.getSeconds());
+  const tgl = hari[now.getDay()] + ', ' +
+              now.getDate() + ' ' +
+              bulan[now.getMonth()] + ' ' +
+              now.getFullYear();
+
+  document.getElementById('jam').textContent = jam;
+  document.getElementById('tanggal').textContent = tgl;
+}
+
+update();
+setInterval(update, 1000);`
+  }
+};
+
+// ============ STATE ============
+let currentEditor = 'html';
+let updateTimer = null;
+
+const htmlCode = document.getElementById('html-code');
+const cssCode = document.getElementById('css-code');
+const jsCode = document.getElementById('js-code');
+const preview = document.getElementById('preview');
+
+// ============ FUNCTIONS ============
+function switchEditor(type) {
+  currentEditor = type;
+  document.querySelectorAll('.editor-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.editor-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.${type}-tab`).classList.add('active');
+  document.getElementById(`${type}-editor`).classList.add('active');
+  document.getElementById(`${type}-code`).focus();
+}
+
+function runCode() {
+  const html = htmlCode.value;
+  const css = cssCode.value;
+  const js = jsCode.value;
+
+  const doc = `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>${css}</style>
+</head>
+<body>
+${html}
+<script>
+try {
+${js}
+} catch(e) {
+  document.body.innerHTML += '<div style="position:fixed;bottom:0;left:0;right:0;background:#fee;color:#c00;padding:12px;border-top:2px solid #c00;font-family:monospace;font-size:13px;z-index:9999;">⚠ JavaScript Error: ' + e.message + '</div>';
+}
+<\/script>
+</body>
+</html>`;
+
+  preview.srcdoc = doc;
+}
+
+function loadPreset(name) {
+  const p = presets[name];
+  if (!p) return;
+  htmlCode.value = p.html;
+  cssCode.value = p.css;
+  jsCode.value = p.js;
+  runCode();
+}
+
+function resetPlayground() {
+  if (!confirm('Yakin mau kosongkan semua editor?')) return;
+  htmlCode.value = '';
+  cssCode.value = '';
+  jsCode.value = '';
+  runCode();
+}
+
+function scheduleUpdate() {
+  clearTimeout(updateTimer);
+  updateTimer = setTimeout(runCode, 600);
+}
+
+// ============ EVENT LISTENERS ============
+[htmlCode, cssCode, jsCode].forEach(el => {
+  el.addEventListener('input', scheduleUpdate);
+
+  // Tab = 2 spasi
+  el.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = el.selectionStart;
+      const end = el.selectionEnd;
+      el.value = el.value.substring(0, start) + '  ' + el.value.substring(end);
+      el.selectionStart = el.selectionEnd = start + 2;
+    }
+  });
+});
+
+// ============ INIT ============
+loadPreset('halo');
+</script>
+</body>
+</html>

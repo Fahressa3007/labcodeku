@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="labcodeku — Tempat belajar HTML, CSS, JavaScript, dan PHP dari nol dengan bahasa Indonesia. Contoh interaktif, latihan, dan playground.">
+<meta name="keywords" content="belajar coding, tutorial web, HTML, CSS, JavaScript, PHP, bahasa Indonesia">
+<title>labcodeku — Belajar Ngoding Web dari Nol</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* Hero spesifik halaman ini */
+.hero {
+  padding: 5rem 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.8rem);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.035em;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+}
+
+.hero-lead {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  max-width: 540px;
+  margin-bottom: 2rem;
+  line-height: 1.65;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 2rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.hero-meta-item .num {
+  font-family: 'Fraunces', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.hero-meta-item .label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+
+.hero-visual {
+  position: relative;
+  height: 420px;
+}
+
+.code-card {
+  position: absolute;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+  width: 280px;
+  color: #e0e0e0;
+}
+
+.code-card-1 { top: 10px; left: 0; transform: rotate(-5deg); background: #2d1810; border: 1px solid #4a2818; }
+.code-card-1 .tok-tag { color: #f4c430; }
+.code-card-1 .tok-attr { color: #e8632d; }
+.code-card-2 { top: 120px; left: 80px; transform: rotate(2deg); background: #0f2948; border: 1px solid #1a3a5e; z-index: 2; }
+.code-card-2 .tok-sel { color: #4aa3df; }
+.code-card-2 .tok-prop { color: #b4c8e8; }
+.code-card-2 .tok-val { color: #f4c430; }
+.code-card-3 { top: 240px; left: 30px; transform: rotate(-2deg); background: #1a2818; border: 1px solid #2a3a28; }
+.code-card-3 .tok-kw { color: #c679dd; }
+.code-card-3 .tok-fn { color: #61d095; }
+.code-card-3 .tok-str { color: #f4c430; }
+
+/* Topics */
+.topics-section {
+  padding: 4rem 0 5rem;
+  background: var(--cream-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.025em;
+}
+
+.section-subtitle {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  max-width: 620px;
+  margin-bottom: 3rem;
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.topic-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 2rem 1.75rem 1.75rem;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.topic-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  opacity: 1;
+}
+
+.topic-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--topic-color, var(--accent));
+}
+
+.topic-icon {
+  font-size: 1.8rem;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--topic-color, var(--accent));
+  margin-bottom: 1rem;
+  letter-spacing: -0.04em;
+}
+
+.topic-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.topic-card p {
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  margin-bottom: 1rem;
+  line-height: 1.55;
+}
+
+.topic-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--line);
+  border-radius: 99px;
+  overflow: hidden;
+  margin: 1rem 0 0.7rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--topic-color, var(--accent));
+  border-radius: 99px;
+  transition: width 0.4s;
+  width: 0%;
+}
+
+.topic-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--topic-color, var(--accent));
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.topic-card:hover .topic-link { gap: 0.6rem; }
+
+/* Features section */
+.features {
+  padding: 5rem 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.feature {
+  padding: 1.5rem 0;
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+}
+
+.feature h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature p {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+/* Roadmap */
+.roadmap {
+  padding: 5rem 0;
+  background: var(--cream-2);
+  border-top: 1px solid var(--line);
+}
+
+.roadmap-list {
+  list-style: none;
+  counter-reset: step;
+  max-width: 780px;
+  margin: 2.5rem auto 0;
+}
+
+.roadmap-list li {
+  counter-increment: step;
+  padding: 1.5rem 1.75rem 1.5rem 4.5rem;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.roadmap-list li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 1.5rem;
+  top: 1.4rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.1rem;
+  background: var(--accent-soft);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roadmap-list h4 {
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+}
+
+.roadmap-list p {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.roadmap-list strong { color: var(--ink); }
+
+/* CTA Section */
+.cta-section {
+  padding: 5rem 0 6rem;
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  margin-bottom: 1rem;
+}
+
+.cta-section p {
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-visual { display: none; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+}
+
+@media (max-width: 640px) {
+  .hero { padding: 3rem 0 2rem; }
+  .hero-meta { gap: 1.5rem; }
+  .hero-meta-item .num { font-size: 1.7rem; }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .btn { justify-content: center; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-dot"></span>
+      labcodeku
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="html.html">HTML</a></li>
+      <li><a href="css.html">CSS</a></li>
+      <li><a href="javascript.html">JavaScript</a></li>
+      <li><a href="php.html">PHP</a></li>
+      <li><a href="playground.html">Playground</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="section-label">— Tempat belajar yang ramah pemula</span>
+      <h1>Belajar ngoding web dari <em>nol</em>, langkah demi langkah.</h1>
+      <p class="hero-lead">
+        <strong>HTML, CSS, JavaScript, dan PHP</strong> — empat bahasa inti web, dijelaskan pakai bahasa sehari-hari, dengan contoh yang bisa langsung kamu salin, hasil yang bisa langsung kamu lihat, dan latihan untuk dicoba sendiri.
+      </p>
+      <div class="hero-cta">
+        <a href="html.html" class="btn btn-primary">Mulai dari HTML →</a>
+        <a href="playground.html" class="btn btn-secondary">Buka Playground</a>
+      </div>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="num">48+</span>
+          <span class="label">Materi</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="num">100+</span>
+          <span class="label">Contoh code</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="num">0</span>
+          <span class="label">Biaya</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="code-card code-card-1">
+&lt;<span class="tok-tag">h1</span>&gt;Halo Dunia&lt;/<span class="tok-tag">h1</span>&gt;<br>
+&lt;<span class="tok-tag">p</span>&gt;Saya lagi belajar<br>&nbsp;&nbsp;&nbsp;HTML di labcodeku&lt;/<span class="tok-tag">p</span>&gt;
+      </div>
+      <div class="code-card code-card-2">
+<span class="tok-sel">h1</span> {<br>
+&nbsp;&nbsp;<span class="tok-prop">color</span>: <span class="tok-val">tomato</span>;<br>
+&nbsp;&nbsp;<span class="tok-prop">font-size</span>: <span class="tok-val">2rem</span>;<br>
+}
+      </div>
+      <div class="code-card code-card-3">
+<span class="tok-kw">function</span> <span class="tok-fn">sapa</span>(nama) {<br>
+&nbsp;&nbsp;<span class="tok-kw">return</span> <span class="tok-str">`Halo, ${nama}!`</span>;<br>
+}
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TOPIK -->
+<section class="topics-section">
+  <div class="container">
+    <span class="section-label">— Pilih topik</span>
+    <h2 class="section-title">Empat bahasa, satu tempat.</h2>
+    <p class="section-subtitle">
+      Setiap bahasa punya peran berbeda dalam sebuah website. Klik kartu untuk mulai belajar — progresmu akan otomatis tersimpan di browser ini.
+    </p>
+
+    <div class="topic-grid">
+      <a href="html.html" class="topic-card" style="--topic-color: #e8632d;">
+        <div class="topic-icon">&lt;/&gt;</div>
+        <h3>HTML</h3>
+        <p>Kerangka halaman. Mengatur struktur dan isi: judul, paragraf, gambar, link, form, dan sebagainya.</p>
+        <div class="progress-bar" data-topic="html">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="topic-stats">
+          <span>12 materi</span>
+          <span class="progress-text">0/12 selesai</span>
+        </div>
+        <span class="topic-link">Mulai belajar →</span>
+      </a>
+
+      <a href="css.html" class="topic-card" style="--topic-color: #2d6fe8;">
+        <div class="topic-icon">{ }</div>
+        <h3>CSS</h3>
+        <p>Penampilan halaman. Warna, font, jarak, posisi, animasi, dan tampilan responsif untuk HP maupun laptop.</p>
+        <div class="progress-bar" data-topic="css">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="topic-stats">
+          <span>12 materi</span>
+          <span class="progress-text">0/12 selesai</span>
+        </div>
+        <span class="topic-link">Mulai belajar →</span>
+      </a>
+
+      <a href="javascript.html" class="topic-card" style="--topic-color: #d4a017;">
+        <div class="topic-icon">( )</div>
+        <h3>JavaScript</h3>
+        <p>Otak halaman. Membuat halaman jadi interaktif: tombol bereaksi, validasi form, animasi dinamis, ambil data.</p>
+        <div class="progress-bar" data-topic="javascript">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="topic-stats">
+          <span>14 materi</span>
+          <span class="progress-text">0/14 selesai</span>
+        </div>
+        <span class="topic-link">Mulai belajar →</span>
+      </a>
+
+      <a href="php.html" class="topic-card" style="--topic-color: #4a8f3c;">
+        <div class="topic-icon">&lt;?=</div>
+        <h3>PHP</h3>
+        <p>Bahasa server. Memproses form, menyimpan data ke database, membuat sistem login, dan backend website.</p>
+        <div class="progress-bar" data-topic="php">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="topic-stats">
+          <span>10 materi</span>
+          <span class="progress-text">0/10 selesai</span>
+        </div>
+        <span class="topic-link">Mulai belajar →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FITUR -->
+<section class="features">
+  <div class="container">
+    <span class="section-label">— Kenapa di sini</span>
+    <h2 class="section-title">Dibuat khusus untuk yang <em style="color:#e8632d; font-style:italic;">lagi belajar</em>.</h2>
+    <p class="section-subtitle">
+      Banyak tutorial web di luar sana asumsinya kamu sudah tahu banyak hal. Di sini, kami mulai dari benar-benar nol.
+    </p>
+
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">▸</div>
+        <h3>Bahasa Indonesia sehari-hari</h3>
+        <p>Tidak ada istilah rumit yang tidak dijelaskan. Kalau pakai istilah teknis, kami jelaskan dulu artinya.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">↻</div>
+        <h3>Lihat langsung hasilnya</h3>
+        <p>Setiap contoh code datang dengan preview hasilnya di sebelah, jadi kamu langsung tahu efeknya.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Playground live</h3>
+        <p>Editor HTML, CSS, dan JavaScript langsung di browser. Tidak perlu install apa-apa untuk mulai coba.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <h3>Latihan &amp; kuis</h3>
+        <p>Setiap topik ada latihan dengan jawaban tersembunyi. Coba dulu, baru lihat solusinya.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">◐</div>
+        <h3>Progress tersimpan</h3>
+        <p>Tandai materi yang sudah dipelajari. Progresmu otomatis tersimpan di browser.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">◇</div>
+        <h3>Cuma-cuma, tanpa syarat</h3>
+        <p>Tidak perlu daftar, tidak perlu login. Buka dan pelajari kapan saja, di mana saja.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="roadmap">
+  <div class="container-sm">
+    <span class="section-label">— Kalau bingung mulai dari mana</span>
+    <h2 class="section-title">Ikuti urutan ini.</h2>
+    <p class="section-subtitle" style="margin-left:0;">
+      Ngoding web itu seperti membangun rumah — mulai dari pondasi dulu, baru dinding, lalu dekorasi.
+    </p>
+
+    <ol class="roadmap-list">
+      <li>
+        <h4>Kuasai <strong>HTML</strong> dulu</h4>
+        <p>Ini pondasi. Tanpa HTML, tidak ada apa-apa untuk di-CSS atau di-JavaScript. Target: paham tag dasar, form, dan struktur halaman.</p>
+      </li>
+      <li>
+        <h4>Lanjut ke <strong>CSS</strong></h4>
+        <p>Buat halaman HTML-mu terlihat cantik. Kuasai flexbox dan responsive — dua hal yang paling sering dipakai di dunia nyata.</p>
+      </li>
+      <li>
+        <h4>Mulai <strong>JavaScript</strong></h4>
+        <p>Buat halaman jadi interaktif. Fokus pada variabel, fungsi, DOM, dan event dulu. Jangan langsung ke framework.</p>
+      </li>
+      <li>
+        <h4>Praktik: bikin project kecil</h4>
+        <p>Misalnya: kalkulator sederhana, to-do list, kartu profil, atau halaman portofolio statis. Ini bagian paling penting!</p>
+      </li>
+      <li>
+        <h4>Pelajari <strong>PHP</strong> &amp; database</h4>
+        <p>Saat kamu mau halamanmu <em>mengingat</em> sesuatu — menyimpan data, sistem login, form kontak yang benar — PHP jawabannya.</p>
+      </li>
+      <li>
+        <h4>Deploy ke hosting</h4>
+        <p>Kamu sudah punya domain <strong>labcodeku.my.id</strong>. Upload project-mu, bagikan ke teman, dan rasakan kepuasan melihat karyamu hidup di internet.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container-sm">
+    <h2>Sudah siap mulai?</h2>
+    <p>Tarik napas dalam. Tidak ada yang perlu dipersiapkan — cukup buka bab pertama.</p>
+    <div class="hero-cta" style="justify-content: center;">
+      <a href="html.html" class="btn btn-accent">Mulai Bab 01: HTML →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-dot"></span>
+          labcodeku
+        </div>
+        <p>Tempat belajar HTML, CSS, JavaScript, dan PHP dengan bahasa yang ramah, contoh yang bisa langsung disalin, dan hasil yang bisa langsung dilihat.</p>
+      </div>
+      <div>
+        <h4>Topik</h4>
+        <ul>
+          <li><a href="html.html">HTML</a></li>
+          <li><a href="css.html">CSS</a></li>
+          <li><a href="javascript.html">JavaScript</a></li>
+          <li><a href="php.html">PHP</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Alat</h4>
+        <ul>
+          <li><a href="playground.html">Playground</a></li>
+          <li><a href="html.html#cheatsheet">Cheatsheet HTML</a></li>
+          <li><a href="css.html#cheatsheet">Cheatsheet CSS</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Referensi</h4>
+        <ul>
+          <li><a href="https://developer.mozilla.org/id/" target="_blank" rel="noopener">MDN Web Docs</a></li>
+          <li><a href="https://www.php.net/manual/id/" target="_blank" rel="noopener">PHP Manual</a></li>
+          <li><a href="https://caniuse.com" target="_blank" rel="noopener">Can I Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 labcodeku.my.id &nbsp;·&nbsp; dibuat dengan <span class="heart">♥</span> untuk yang sedang belajar
+    </div>
+  </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" aria-label="Kembali ke atas">↑</button>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
